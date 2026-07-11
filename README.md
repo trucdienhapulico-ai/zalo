@@ -20,6 +20,26 @@ Tiện ích miễn phí, chạy hoàn toàn trên máy: chọn nội dung tại 
 
 ## Cài đặt
 
+### Máy Windows mới — một lệnh duy nhất
+
+Repo đang ở chế độ private. Mở **PowerShell** và dán toàn bộ lệnh dưới đây. Lệnh tự cài GitHub CLI nếu thiếu, yêu cầu đăng nhập GitHub một lần, lấy bộ cài từ repo rồi thực thi:
+
+```powershell
+$ErrorActionPreference='Stop'; if(-not(Test-Path 'C:\Program Files\GitHub CLI\gh.exe')){winget install --id GitHub.cli -e --accept-package-agreements --accept-source-agreements}; $gh='C:\Program Files\GitHub CLI\gh.exe'; & $gh auth status 2>$null; if($LASTEXITCODE -ne 0){& $gh auth login --hostname github.com --git-protocol https --web}; $s=& $gh api repos/trucdienhapulico-ai/zalo/contents/install.ps1 -H 'Accept: application/vnd.github.raw+json'; $f=Join-Path $env:TEMP 'zalo-local-task-install.ps1'; [IO.File]::WriteAllText($f,($s -join "`n"),[Text.UTF8Encoding]::new($false)); & powershell -NoProfile -ExecutionPolicy Bypass -File $f
+```
+
+Bộ cài sẽ:
+
+- Cài Git, Node.js LTS và Ollama bằng `winget` nếu thiếu.
+- Clone/cập nhật repo vào `%LOCALAPPDATA%\ZaloLocalTask`.
+- Tải model `qwen3:1.7b`.
+- Tạo shortcut **Zalo Local Task** trên Desktop.
+- Khởi chạy dashboard và mở thư mục extension.
+
+Do giới hạn bảo mật của Chrome/Edge, lần đầu vẫn cần mở `chrome://extensions` hoặc `edge://extensions`, bật **Developer mode**, chọn **Load unpacked** và chọn `%LOCALAPPDATA%\ZaloLocalTask\extension`.
+
+### Cài thủ công
+
 ```powershell
 ollama pull qwen3:1.7b
 npm start
