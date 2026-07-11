@@ -1,0 +1,15 @@
+# Local task data
+data/tasks.json
+
+# Logs and local process files
+*.log
+*.pid
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Optional Node artifacts
+node_modules/
