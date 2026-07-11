@@ -20,6 +20,26 @@ Tiện ích miễn phí, chạy hoàn toàn trên máy: chọn nội dung tại 
 
 ## Cài đặt
 
+### Máy Windows mới — một lệnh duy nhất
+
+Trên máy mới, mở **PowerShell** và dán đúng một lệnh:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -Command "irm 'https://raw.githubusercontent.com/trucdienhapulico-ai/zalo/main/install.ps1' | iex"
+```
+
+Bộ cài sẽ:
+
+- Cài Git, Node.js LTS và Ollama bằng `winget` nếu thiếu; không cần đăng nhập GitHub.
+- Clone/cập nhật repo vào `%LOCALAPPDATA%\ZaloLocalTask`.
+- Tải model `qwen3:1.7b`.
+- Tạo shortcut **Zalo Local Task** trên Desktop.
+- Khởi chạy dashboard và mở thư mục extension.
+
+Do giới hạn bảo mật của Chrome/Edge, lần đầu vẫn cần mở `chrome://extensions` hoặc `edge://extensions`, bật **Developer mode**, chọn **Load unpacked** và chọn `%LOCALAPPDATA%\ZaloLocalTask\extension`.
+
+### Cài thủ công
+
 ```powershell
 ollama pull qwen3:1.7b
 npm start
