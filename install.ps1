@@ -5,7 +5,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$Repo = 'trucdienhapulico-ai/zalo'
+$RepoUrl = 'https://github.com/trucdienhapulico-ai/zalo.git'
 
 function Write-Step([string]$Message) {
   Write-Host "`n==> $Message" -ForegroundColor Cyan
@@ -30,20 +30,6 @@ function Install-WingetPackage([string]$Id, [string]$Label) {
 if ($env:OS -ne 'Windows_NT') { throw 'This installer supports Windows only.' }
 if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
   throw 'winget was not found. Install App Installer from Microsoft Store and run this command again.'
-}
-
-$gh = Find-Exe 'gh' @('%ProgramFiles%\GitHub CLI\gh.exe', '%LOCALAPPDATA%\Programs\GitHub CLI\gh.exe')
-if (-not $gh) {
-  Install-WingetPackage 'GitHub.cli' 'GitHub CLI'
-  $gh = Find-Exe 'gh' @('%ProgramFiles%\GitHub CLI\gh.exe', '%LOCALAPPDATA%\Programs\GitHub CLI\gh.exe')
-}
-if (-not $gh) { throw 'gh.exe was not found after installation.' }
-
-& $gh auth status *> $null
-if ($LASTEXITCODE -ne 0) {
-  Write-Step 'Sign in to GitHub to access the private repository'
-  & $gh auth login --hostname github.com --git-protocol https --web
-  if ($LASTEXITCODE -ne 0) { throw 'GitHub sign-in failed.' }
 }
 
 $git = Find-Exe 'git' @('%ProgramFiles%\Git\cmd\git.exe', '%LOCALAPPDATA%\Programs\Git\cmd\git.exe')
@@ -88,7 +74,7 @@ if (Test-Path -LiteralPath (Join-Path $InstallDir '.git')) {
     if ($items) { throw "Install directory exists and is not empty: $InstallDir" }
   }
   New-Item -ItemType Directory -Path (Split-Path $InstallDir) -Force | Out-Null
-  & $gh repo clone $Repo $InstallDir
+  & $git clone $RepoUrl $InstallDir
   if ($LASTEXITCODE -ne 0) { throw 'Could not clone the repository.' }
 }
 
