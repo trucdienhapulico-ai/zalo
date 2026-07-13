@@ -3,6 +3,7 @@ function currentSchema() {
     progress: [...document.querySelectorAll('#progressChips [data-value]')].map(item => item.dataset.value).filter(Boolean),
     resultPresets: [...document.querySelectorAll('#resultChips [data-fill]')].map(item => item.dataset.fill).filter(Boolean),
     shifts: [...document.querySelectorAll('#shift option')].map(item => item.value || item.textContent.trim()).filter(Boolean),
+    workTeams: [...document.querySelectorAll('#workTeam option')].map(item => item.value || item.textContent.trim()).filter(value => value && !value.startsWith('—')),
     updatedAt: Date.now()
   };
 }
@@ -43,7 +44,7 @@ if (params.get('from') === 'zalo') {
 
       const fieldMap = {
         selectedTask: 'selectedTask', result: 'result', workDate: 'workDate', shift: 'shift',
-        startTime: 'startTime', endTime: 'endTime', issue: 'issue', nextAction: 'nextAction'
+        workTeam: 'workTeam', startTime: 'startTime', endTime: 'endTime', issue: 'issue', nextAction: 'nextAction'
       };
       for (const [key, id] of Object.entries(fieldMap)) {
         const field = document.getElementById(id);

@@ -4,7 +4,8 @@ const JOURNAL_PAGE = 'https://bandien.github.io/scan/nhatky/';
 const DEFAULT_SCHEMA = {
   progress: ['Hoàn thành', 'Đang làm', 'Cần hỗ trợ'],
   resultPresets: ['Không phát hiện bất thường', 'Có bất thường, cần theo dõi', 'Đã xử lý dứt điểm', 'Cần vật tư thay thế'],
-  shifts: ['Ca sáng', 'Ca chiều', 'Ca đêm', 'Hành chính']
+  shifts: ['Ca sáng', 'Ca chiều', 'Ca đêm', 'Hành chính'],
+  workTeams: ['Tổ cơ điện', 'Tổ điện nước']
 };
 
 function valuesFrom(html, containerId, attribute) {
@@ -25,7 +26,8 @@ async function getJournalSchema() {
     const schema = {
       progress: valuesFrom(html, 'progressChips', 'data-value'),
       resultPresets: valuesFrom(html, 'resultChips', 'data-fill'),
-      shifts: optionsFrom(html, 'shift')
+      shifts: optionsFrom(html, 'shift'),
+      workTeams: optionsFrom(html, 'workTeam').filter(value => !value.startsWith('—'))
     };
     for (const key of Object.keys(DEFAULT_SCHEMA)) {
       if (!schema[key].length) schema[key] = DEFAULT_SCHEMA[key];

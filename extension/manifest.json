@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Zalo → Việc local",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Chuyển nội dung giao việc từ Zalo Web sang Nhật ký Ban Điện.",
   "permissions": ["contextMenus", "storage", "activeTab"],
   "host_permissions": ["http://127.0.0.1:4317/*", "https://bandien.github.io/*"],
