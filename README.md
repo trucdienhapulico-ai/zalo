@@ -1,9 +1,9 @@
 # Zalo Local Task
-
+̣(Tạo việc từ Bôi đen nội dung tin nhắn trang chat.zalo.me)
 Tiện ích miễn phí, chạy hoàn toàn trên máy: chọn nội dung tại `chat.zalo.me`, phân loại giao việc bằng Ollama và lưu vào bảng Kanban local.
 
 ## Tính năng
-
+̣̣
 - Nút **Tạo việc** xuất hiện ngay khi bôi đen tin nhắn trên Zalo Web.
 - AI trích tiêu đề, người phụ trách, hạn, ưu tiên và nhóm công việc.
 - Màn hình xác nhận trước khi lưu để tránh tạo nhầm.
