@@ -5,7 +5,7 @@ const DEFAULT_SCHEMA = {
   progress: ['Hoàn thành', 'Đang làm', 'Cần hỗ trợ'],
   resultPresets: ['Không phát hiện bất thường', 'Có bất thường, cần theo dõi', 'Đã xử lý dứt điểm', 'Cần vật tư thay thế'],
   shifts: ['Ca sáng', 'Ca chiều', 'Ca đêm', 'Hành chính'],
-  workTeams: ['Tổ cơ điện', 'Tổ điện nước']
+  teams: ['Tổ cơ điện', 'Tổ điện nước']
 };
 
 function valuesFrom(html, containerId, attribute) {
@@ -19,6 +19,10 @@ function optionsFrom(html, selectId) {
 }
 
 async function getJournalSchema() {
+  const { journalFormSchema } = await chrome.storage.local.get('journalFormSchema');
+  if (journalFormSchema?.source === 'page' && Date.now() - journalFormSchema.updatedAt < 24 * 60 * 60 * 1000) {
+    return journalFormSchema;
+  }
   try {
     const response = await fetch(JOURNAL_PAGE, { cache: 'no-store' });
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -27,15 +31,14 @@ async function getJournalSchema() {
       progress: valuesFrom(html, 'progressChips', 'data-value'),
       resultPresets: valuesFrom(html, 'resultChips', 'data-fill'),
       shifts: optionsFrom(html, 'shift'),
-      workTeams: optionsFrom(html, 'workTeam').filter(value => !value.startsWith('—'))
+      teams: optionsFrom(html, 'teams').filter(value => !value.startsWith('—'))
     };
     for (const key of Object.keys(DEFAULT_SCHEMA)) {
       if (!schema[key].length) schema[key] = DEFAULT_SCHEMA[key];
     }
-    await chrome.storage.local.set({ journalFormSchema: { ...schema, updatedAt: Date.now() } });
+    await chrome.storage.local.set({ journalFormSchema: { ...schema, source: 'html', updatedAt: Date.now() } });
     return schema;
   } catch {
-    const { journalFormSchema } = await chrome.storage.local.get('journalFormSchema');
     return journalFormSchema || DEFAULT_SCHEMA;
   }
 }

@@ -23,7 +23,7 @@ function openForm(text, schema) {
   modal.innerHTML = `<div id="zlt-box">
     <h2>Tạo việc trong Nhật ký Ban Điện</h2>
     <label>Việc</label><textarea id="zlt-task" rows="3"></textarea>
-    <label>Việc của tổ nào</label><select id="zlt-work-team"><option value="">— Chọn tổ thực hiện —</option>${optionHtml(schema.workTeams || [])}</select>
+    <label>Việc của tổ nào</label><select id="zlt-teams"><option value="">— Chọn tổ thực hiện —</option>${optionHtml(schema.teams || [])}</select>
     <label>Kết quả</label><select id="zlt-progress">${optionHtml(schema.progress || [], 'Hoàn thành')}</select>
     <label>Mẫu ghi chú nhanh</label><select id="zlt-result-preset"><option value="">— Không chọn —</option>${optionHtml(schema.resultPresets || [])}</select>
     <label>Kết quả / ghi chú</label><textarea id="zlt-result" rows="3" placeholder="Đã làm gì, kết quả ra sao..."></textarea>
@@ -44,7 +44,7 @@ function openForm(text, schema) {
   modal.querySelector('#zlt-submit').onclick = () => {
     const payload = {
       selectedTask: modal.querySelector('#zlt-task').value.trim(),
-      workTeam: modal.querySelector('#zlt-work-team').value,
+      teams: modal.querySelector('#zlt-teams').value,
       progress: modal.querySelector('#zlt-progress').value,
       result: modal.querySelector('#zlt-result').value.trim(),
       workDate: modal.querySelector('#zlt-date').value,
@@ -55,7 +55,7 @@ function openForm(text, schema) {
       nextAction: modal.querySelector('#zlt-next').value.trim()
     };
     if (!payload.selectedTask) return modal.querySelector('#zlt-task').focus();
-    if (!payload.workTeam) return modal.querySelector('#zlt-work-team').focus();
+    if (!payload.teams) return modal.querySelector('#zlt-teams').focus();
     chrome.runtime.sendMessage({ type: 'OPEN_JOURNAL', payload });
     modal.remove();
   };

@@ -3,18 +3,24 @@ function currentSchema() {
     progress: [...document.querySelectorAll('#progressChips [data-value]')].map(item => item.dataset.value).filter(Boolean),
     resultPresets: [...document.querySelectorAll('#resultChips [data-fill]')].map(item => item.dataset.fill).filter(Boolean),
     shifts: [...document.querySelectorAll('#shift option')].map(item => item.value || item.textContent.trim()).filter(Boolean),
-    workTeams: [...document.querySelectorAll('#workTeam option')].map(item => item.value || item.textContent.trim()).filter(value => value && !value.startsWith('—')),
-    updatedAt: Date.now()
+    teams: [...document.querySelectorAll('#teams option')].map(item => item.value || item.textContent.trim()).filter(value => value && !value.startsWith('—')),
+    source: 'page', updatedAt: Date.now()
   };
 }
 
+let lastSchemaSignature = '';
 function syncSchema(attempt = 0) {
   const schema = currentSchema();
-  if (schema.progress.length && schema.shifts.length) chrome.storage.local.set({ journalFormSchema: schema });
+  const signature = JSON.stringify([schema.progress, schema.resultPresets, schema.shifts, schema.teams]);
+  if (schema.progress.length && schema.shifts.length && signature !== lastSchemaSignature) {
+    lastSchemaSignature = signature;
+    chrome.storage.local.set({ journalFormSchema: schema });
+  }
   else if (attempt < 20) setTimeout(() => syncSchema(attempt + 1), 500);
 }
 
 syncSchema();
+new MutationObserver(() => syncSchema()).observe(document.documentElement, { childList: true, subtree: true });
 
 const params = new URL(location.href).searchParams;
 if (params.get('from') === 'zalo') {
@@ -44,7 +50,7 @@ if (params.get('from') === 'zalo') {
 
       const fieldMap = {
         selectedTask: 'selectedTask', result: 'result', workDate: 'workDate', shift: 'shift',
-        workTeam: 'workTeam', startTime: 'startTime', endTime: 'endTime', issue: 'issue', nextAction: 'nextAction'
+        teams: 'teams', startTime: 'startTime', endTime: 'endTime', issue: 'issue', nextAction: 'nextAction'
       };
       for (const [key, id] of Object.entries(fieldMap)) {
         const field = document.getElementById(id);
