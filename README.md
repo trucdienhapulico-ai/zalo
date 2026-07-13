@@ -6,7 +6,9 @@ Tiện ích miễn phí, chạy hoàn toàn trên máy: chọn nội dung tại 
 ̣̣
 - Nút **Tạo việc** xuất hiện ngay khi bôi đen tin nhắn trên Zalo Web.
 - Mở [Nhật ký Ban Điện](https://bandien.github.io/scan/nhatky/) trong tab mới.
-- Tự chuyển tới màn **Ghi nhật ký nhanh** và điền nội dung vào trường **Việc**.
+- Tải các lựa chọn biểu mẫu hiện tại từ trang Nhật ký Ban Điện.
+- Hiển thị trên Zalo các trường: **Việc, Kết quả, Ghi chú, Ngày, Ca, Từ giờ, Đến giờ, Còn tồn, Làm tiếp**.
+- Tự chuyển tới màn **Ghi nhật ký nhanh** và điền toàn bộ dữ liệu vào đúng trường.
 - Nếu chưa đăng nhập, extension chờ đăng nhập xong rồi mới tự điền.
 - Kanban gồm `Cần làm`, `Đang làm`, `Hoàn thành`.
 - Không gửi nội dung tin nhắn tới dịch vụ AI bên ngoài.

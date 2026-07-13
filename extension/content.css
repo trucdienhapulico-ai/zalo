@@ -1,14 +1,2 @@
-#zlt-float {
-  position: fixed;
-  z-index: 2147483646;
-  border: 0;
-  border-radius: 18px;
-  padding: 7px 12px;
-  background: #0068ff;
-  color: #fff;
-  font: 600 13px "Segoe UI", sans-serif;
-  box-shadow: 0 5px 18px #0068ff55;
-  cursor: pointer;
-}
-
-#zlt-float:hover { background: #0054d1; }
+#zlt-float{position:fixed;z-index:2147483646;border:0;border-radius:18px;padding:7px 12px;background:#0068ff;color:#fff;font:600 13px "Segoe UI",sans-serif;box-shadow:0 5px 18px #0068ff55;cursor:pointer}#zlt-float:hover{background:#0054d1}
+#zlt-modal{position:fixed;inset:0;background:#10182880;z-index:2147483647;display:grid;place-items:center;font-family:"Segoe UI",sans-serif;color:#17233c}#zlt-box{width:min(540px,94vw);max-height:92vh;overflow:auto;background:#fff;border-radius:15px;padding:20px;box-shadow:0 20px 60px #0005}#zlt-box h2{margin:0 0 14px;font-size:19px}#zlt-box label{display:block;font-size:12px;font-weight:700;color:#475467;margin:10px 0 4px}#zlt-box input,#zlt-box textarea,#zlt-box select{width:100%;box-sizing:border-box;border:1px solid #d0d5dd;border-radius:8px;padding:9px;font:inherit;background:#fff}.zlt-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.zlt-note{font-size:12px;color:#667085;margin:12px 0 0}#zlt-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}#zlt-actions button{border:0;border-radius:8px;padding:10px 14px;cursor:pointer}#zlt-submit{background:#0068ff;color:#fff;font-weight:700}@media(max-width:520px){.zlt-grid{grid-template-columns:1fr}}
