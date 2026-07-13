@@ -5,8 +5,9 @@ Tiện ích miễn phí, chạy hoàn toàn trên máy: chọn nội dung tại 
 ## Tính năng
 ̣̣
 - Nút **Tạo việc** xuất hiện ngay khi bôi đen tin nhắn trên Zalo Web.
-- AI trích tiêu đề, người phụ trách, hạn, ưu tiên và nhóm công việc.
-- Màn hình xác nhận trước khi lưu để tránh tạo nhầm.
+- Mở [Nhật ký Ban Điện](https://bandien.github.io/scan/nhatky/) trong tab mới.
+- Tự chuyển tới màn **Ghi nhật ký nhanh** và điền nội dung vào trường **Việc**.
+- Nếu chưa đăng nhập, extension chờ đăng nhập xong rồi mới tự điền.
 - Kanban gồm `Cần làm`, `Đang làm`, `Hoàn thành`.
 - Không gửi nội dung tin nhắn tới dịch vụ AI bên ngoài.
 - Không cần npm package hoặc cơ sở dữ liệu.
