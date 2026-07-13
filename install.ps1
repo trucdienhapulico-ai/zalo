@@ -78,13 +78,6 @@ if (Test-Path -LiteralPath (Join-Path $InstallDir '.git')) {
   if ($LASTEXITCODE -ne 0) { throw 'Could not clone the repository.' }
 }
 
-$dataDir = Join-Path $InstallDir 'data'
-New-Item -ItemType Directory -Path $dataDir -Force | Out-Null
-$taskFile = Join-Path $dataDir 'tasks.json'
-if (-not (Test-Path -LiteralPath $taskFile)) {
-  [IO.File]::WriteAllText($taskFile, '[]', [Text.UTF8Encoding]::new($false))
-}
-
 Write-Step "Downloading local AI model $Model"
 & $ollama pull $Model
 if ($LASTEXITCODE -ne 0) { throw "Could not download model $Model." }
@@ -92,23 +85,20 @@ if ($LASTEXITCODE -ne 0) { throw "Could not download model $Model." }
 Write-Step 'Creating desktop shortcut'
 $shell = New-Object -ComObject WScript.Shell
 $desktop = [Environment]::GetFolderPath('Desktop')
-$shortcut = $shell.CreateShortcut((Join-Path $desktop 'Zalo Local Task.lnk'))
+$oldShortcut = Join-Path $desktop 'Zalo Local Task.lnk'
+if (Test-Path -LiteralPath $oldShortcut) { Remove-Item -LiteralPath $oldShortcut -Force }
+$shortcut = $shell.CreateShortcut((Join-Path $desktop 'Zalo - Nhat ky Ban Dien.lnk'))
 $shortcut.TargetPath = (Join-Path $InstallDir 'start.cmd')
 $shortcut.WorkingDirectory = $InstallDir
-$shortcut.Description = 'Start Zalo Local Task'
+$shortcut.Description = 'Start Zalo to Ban Dien Journal bridge'
 $shortcut.Save()
 
 Write-Step 'Starting the application'
-try {
-  Invoke-RestMethod 'http://127.0.0.1:4317/api/health' -TimeoutSec 2 | Out-Null
-} catch {
-  Start-Process -FilePath $node -ArgumentList 'server.js' -WorkingDirectory $InstallDir -WindowStyle Hidden
-  Start-Sleep -Seconds 2
-}
-Start-Process 'http://127.0.0.1:4317'
+& powershell.exe -NoProfile -ExecutionPolicy Bypass -File (Join-Path $InstallDir 'start.ps1')
+if ($LASTEXITCODE -ne 0) { throw 'Could not start the local bridge.' }
 Start-Process explorer.exe -ArgumentList (Join-Path $InstallDir 'extension')
 
 Write-Host "`nINSTALLATION COMPLETE" -ForegroundColor Green
-Write-Host 'Dashboard: http://127.0.0.1:4317'
+Write-Host 'Bridge status: http://127.0.0.1:4317'
 Write-Host "Extension: $(Join-Path $InstallDir 'extension')"
 Write-Host 'Final manual step: open chrome://extensions or edge://extensions, enable Developer mode, click Load unpacked, and select the extension directory shown above.'

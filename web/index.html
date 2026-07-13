@@ -1,5 +1,14 @@
-<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Zalo Local Task</title><link rel="stylesheet" href="/style.css"></head><body>
-<header><div><h1>Zalo Local Task</h1><p>Việc được lưu hoàn toàn trên máy này</p></div><span id="health">Đang kiểm tra AI…</span></header>
-<main id="board"><section data-status="todo"><h2>Cần làm <b>0</b></h2><div></div></section><section data-status="doing"><h2>Đang làm <b>0</b></h2><div></div></section><section data-status="done"><h2>Hoàn thành <b>0</b></h2><div></div></section></main>
-<template id="card"><article draggable="true"><div class="tags"></div><h3></h3><p></p><footer><select><option value="todo">Cần làm</option><option value="doing">Đang làm</option><option value="done">Hoàn thành</option></select><button title="Xóa">×</button></footer></article></template>
-<script src="/app.js"></script></body></html>
+<!doctype html>
+<html lang="vi">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Zalo → Nhật ký Ban Điện</title><link rel="stylesheet" href="/style.css"></head>
+<body>
+  <main>
+    <div class="mark">✓</div>
+    <h1>Cầu nối Zalo → Nhật ký đang chạy</h1>
+    <p>Không còn Kanban hoặc dữ liệu công việc local. Hãy mở <strong>chat.zalo.me</strong>, bôi đen tin giao việc và bấm <strong>Tạo việc</strong>.</p>
+    <div id="health">Đang kiểm tra Ollama…</div>
+    <a href="https://bandien.github.io/scan/nhatky/">Mở Nhật ký Ban Điện</a>
+  </main>
+  <script>fetch('/api/health').then(r=>r.json()).then(h=>{document.getElementById('health').textContent=h.ollama?'AI local sẵn sàng: '+h.model:'Cầu nối sẵn sàng, Ollama chưa chạy';}).catch(()=>{document.getElementById('health').textContent='Không kiểm tra được trạng thái';});</script>
+</body>
+</html>
