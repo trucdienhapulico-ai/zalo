@@ -1,64 +1,57 @@
-# Zalo Local Task
-̣(Tạo việc từ Bôi đen nội dung tin nhắn trang chat.zalo.me)
-Tiện ích miễn phí, chạy hoàn toàn trên máy: chọn nội dung tại `chat.zalo.me`, phân loại giao việc bằng Ollama và lưu vào bảng Kanban local.
+# Zalo → Nhật ký Ban Điện
 
-## Tính năng
-̣̣
-- Nút **Tạo việc** xuất hiện ngay khi bôi đen tin nhắn trên Zalo Web.
-- AI trích tiêu đề, người phụ trách, hạn, ưu tiên và nhóm công việc.
-- Màn hình xác nhận trước khi lưu để tránh tạo nhầm.
-- Kanban gồm `Cần làm`, `Đang làm`, `Hoàn thành`.
-- Không gửi nội dung tin nhắn tới dịch vụ AI bên ngoài.
-- Không cần npm package hoặc cơ sở dữ liệu.
+Extension miễn phí chạy trên Windows: bôi đen tin giao việc tại `chat.zalo.me`, dùng Ollama trên máy để phân tích, kiểm tra biểu mẫu rồi tạo trực tiếp vào [Nhật ký Ban Điện](https://bandien.github.io/scan/nhatky/).
+
+## Luồng hoạt động
+
+1. Bôi đen nội dung tin nhắn trên Zalo Web và bấm **Tạo việc**.
+2. AI local điền Nội dung, người thực hiện, ngày, tổ, khu vực, thiết bị và ưu tiên.
+3. Đăng nhập bằng Username + PIN của Nhật ký; extension chỉ lưu token phiên, không lưu PIN.
+4. Kiểm tra biểu mẫu và bấm **Tạo việc trên Nhật ký**.
+5. Công việc được ghi thẳng vào Google Sheet `11_BanDien_DB` và có thể mở ngay màn chi tiết.
+
+Không còn Kanban, `tasks.json` hoặc dữ liệu công việc local. Dịch vụ tại `127.0.0.1:4317` chỉ làm cầu nối Ollama và API Nhật ký.
 
 ## Yêu cầu
 
 - Windows 10/11.
 - Chrome hoặc Edge.
-- [Ollama](https://ollama.com/) và model `qwen3:1.7b`.
+- Ollama và model `qwen3:1.7b`.
 - Node.js 18 trở lên.
+- Tài khoản Username + PIN trong tab `Users` của Nhật ký Ban Điện.
 
-## Cài đặt
+## Cài đặt máy mới — một lệnh
 
-### Máy Windows mới — một lệnh duy nhất
-
-Trên máy mới, mở **PowerShell** và dán đúng một lệnh:
+Mở PowerShell và chạy:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -Command "irm 'https://raw.githubusercontent.com/trucdienhapulico-ai/zalo/main/install.ps1' | iex"
 ```
 
-Bộ cài sẽ:
+Bộ cài sẽ cài Git, Node.js, Ollama nếu thiếu; tải model; cập nhật mã nguồn; tạo shortcut và mở thư mục extension.
 
-- Cài Git, Node.js LTS và Ollama bằng `winget` nếu thiếu; không cần đăng nhập GitHub.
-- Clone/cập nhật repo vào `%LOCALAPPDATA%\ZaloLocalTask`.
-- Tải model `qwen3:1.7b`.
-- Tạo shortcut **Zalo Local Task** trên Desktop.
-- Khởi chạy dashboard và mở thư mục extension.
+Lần đầu cần:
 
-Do giới hạn bảo mật của Chrome/Edge, lần đầu vẫn cần mở `chrome://extensions` hoặc `edge://extensions`, bật **Developer mode**, chọn **Load unpacked** và chọn `%LOCALAPPDATA%\ZaloLocalTask\extension`.
+1. Mở `chrome://extensions` hoặc `edge://extensions`.
+2. Bật **Developer mode**.
+3. Chọn **Load unpacked**.
+4. Chọn `%LOCALAPPDATA%\ZaloLocalTask\extension`.
+5. Tải lại `https://chat.zalo.me/`.
 
-### Cài thủ công
+Sau mỗi lần cập nhật mã extension, vào trang quản lý extension và bấm **Reload** cho extension này.
+
+## Chạy thủ công
 
 ```powershell
 ollama pull qwen3:1.7b
 npm start
 ```
 
-Dashboard chạy tại <http://127.0.0.1:4317>.
+Trang trạng thái cầu nối: <http://127.0.0.1:4317>.
 
-Để cài extension:
+## An toàn dữ liệu
 
-1. Mở `chrome://extensions` hoặc `edge://extensions`.
-2. Bật **Developer mode**.
-3. Chọn **Load unpacked** và trỏ tới thư mục `extension`.
-4. Tải lại `https://chat.zalo.me/`.
-5. Bôi đen nội dung tin nhắn và bấm nút nổi **Tạo việc**.
-
-Trên máy đã dùng Codex runtime, có thể nhấp đúp `start.cmd`. Nếu Node nằm ở vị trí khác, dùng `npm start`.
-
-## Dữ liệu và riêng tư
-
-Dữ liệu công việc nằm trong `data/tasks.json`. Tệp này đã được `.gitignore` loại trừ và không nên commit lên GitHub.
-
-Ollama được gọi tại `http://127.0.0.1:11434`; API và dashboard chỉ lắng nghe tại `127.0.0.1:4317`.
+- Nội dung Zalo chỉ được gửi tới Ollama trên `127.0.0.1:11434` và API Nhật ký Ban Điện khi người dùng bấm tạo.
+- PIN chỉ được dùng lúc đăng nhập và không được lưu.
+- Token phiên được giữ trong `chrome.storage.local`.
+- API local chỉ chấp nhận request từ extension đã ghép nối bằng khóa sinh riêng trên máy.

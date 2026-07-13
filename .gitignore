@@ -1,5 +1,5 @@
-# Local task data
-data/tasks.json
+# Local pairing key
+data/extension-key.txt
 
 # Logs and local process files
 *.log
